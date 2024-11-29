@@ -751,6 +751,15 @@ class LeCroyWaveRunner:
 		if not isinstance(tdiv, str) or tdiv.lower() not in {t.lower() for t in VALID_TDIVs}:
 			raise ValueError(f'tdiv must be one of {VALID_TDIVs}, received {repr(tdiv)}.')
 		self.write(f'TDIV {tdiv}')
+	
+	def set_toffset(self, toffset: str):
+		"""Sets the horizontal delay for the main window."""
+		# See http://cdn.teledynelecroy.com/files/manuals/tds031000-2000_programming_manual.pdf#page=151
+		try:
+			toffset = float(toffset)
+		except:
+			raise TypeError(f'<toffset> must be a float number, received object of type {type(toffset)}.')
+		self.write(f'TRDL {toffset}')
 
 	def get_vdiv(self, channel: int):
 		"""Gets the vertical scale of the specified channel. Returns a 
